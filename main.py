@@ -1,16 +1,21 @@
 import sys, random, pygame
+from snake import *
+
 
 def main():
 
     red = pygame.Color(255, 0, 0)
     white = pygame.Color(255, 255, 255)
     black = pygame.Color(0, 0, 0)
+    green = pygame.Color(0, 255, 255)
+    orange = pygame.Color(255, 255, 0)
 
     pygame.init()
     pygame.display.set_caption("Snake Game for 2 Players")
     screen = pygame.display.set_mode((720, 480))
 
     numberOfPlayers = -1
+    direction1 ='RIGHT'
 
     while numberOfPlayers == -1:
         screen.fill(white)
@@ -38,9 +43,17 @@ def main():
                 if event.key == pygame.K_2:
                     numberOfPlayers = 2
 
-        for i in range(numberOfPlayers):
-            
+        if numberOfPlayers == 1:
+            snake1 = Snake(100, 50, 90, 50)
+        else:
+            snake1 = Snake(100, 50, 90, 50)
+            snake2 = Snake(380, 50, 390, 50)
+            direction2 = 'LEFT'
 
         pygame.display.flip()
+
+
+
+
 
 main()
