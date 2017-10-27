@@ -13,11 +13,13 @@ def main():
     pygame.init()
     pygame.display.set_caption("Snake Game for 2 Players")
     screen = pygame.display.set_mode((720, 480))
+    fpsController = pygame.time.Clock()
 
     numberOfPlayers = -1
     direction1 ='RIGHT'
 
     foodPosition = [random.randrange(0, 72) * 10, random.randrange(0, 48) * 10]
+    foodSpawned = True
 
     while numberOfPlayers == -1:
         screen.fill(white)
@@ -46,16 +48,24 @@ def main():
                     numberOfPlayers = 2
 
         if numberOfPlayers == 1:
-            snake1 = Snake(100, 50, 90, 50)
+            snake1 = Snake(100, 50, 90, 50, 80, 50)
         else:
-            snake1 = Snake(100, 50, 90, 50)
-            snake2 = Snake(380, 50, 390, 50)
+            snake1 = Snake(100, 50, 90, 50, 80, 50)
+            snake2 = Snake(380, 50, 390, 50, 400, 50)
             direction2 = 'LEFT'
 
         pygame.display.flip()
 
 
-    while snake1.inBounds() or snake2.inBounds():
+    while snake1.inBounds() and snake2.inBounds():
+
+        screen.fill(white)
+
+        snake1.body.insert(0, list(snake1.position))
+        snake2.body.insert(0, list(snake2.position))
+        snake1.update(direction1)
+        snake2.update(direction2)
+
         if not snake1.inBounds():
             # gameOver("Player 2 wins!")
             continue        # change
@@ -86,8 +96,32 @@ def main():
                 elif event.key == pygame.K_w and direction1 != 'DOWN':
                     direction1 = 'UP'
 
+        if snake1.position[0] == foodPosition[0] and snake1.position[1] == foodPosition[1]:
+            snake1.score += 1
+            foodSpawned = False
+        else:
+            snake1.body.pop()
+
+        if snake2.position[0] == foodPosition[0] and snake2.position[1] == foodPosition[1]:
+            snake2.score += 1
+            foodSpawned = False
+        else:
+            snake2.body.pop()
+
+        if not foodSpawned:
+            foodPosition = [random.randrange(0, 72) * 10, random.randrange(0, 48) * 10]
+            foodSpawned = True
+
+        for body1 in snake1.body:
+            pygame.draw.rect(screen, green, pygame.Rect(body1[0], body1[1], 10, 10))
+
+        if not numberOfPlayers:
+            for body2 in snake2.body:
+                pygame.draw.rect(screen, orange, pygame.Rect(body2[0], body2[1], 10, 10))
 
 
+        fpsController.tick(20)
+        pygame.display.flip()
 
 
 main()
