@@ -51,7 +51,7 @@ def main():
             snake1 = Snake(100, 50, 90, 50, 80, 50)
         else:
             snake1 = Snake(100, 50, 90, 50, 80, 50)
-            snake2 = Snake(380, 50, 390, 50, 400, 50)
+            snake2 = Snake(400, 430, 410, 430, 420, 430)
             direction2 = 'LEFT'
 
         pygame.display.flip()
@@ -62,9 +62,18 @@ def main():
         screen.fill(white)
 
         snake1.body.insert(0, list(snake1.position))
-        snake2.body.insert(0, list(snake2.position))
         snake1.update(direction1)
-        snake2.update(direction2)
+
+        if numberOfPlayers == 2:
+
+            if snake2.position[0] == foodPosition[0] and snake2.position[1] == foodPosition[1]:
+                snake2.score += 1
+                foodSpawned = False
+            else:
+                snake2.body.pop()
+
+            snake2.body.insert(0, list(snake2.position))
+            snake2.update(direction2)
 
         if not snake1.inBounds():
             # gameOver("Player 2 wins!")
@@ -102,11 +111,6 @@ def main():
         else:
             snake1.body.pop()
 
-        if snake2.position[0] == foodPosition[0] and snake2.position[1] == foodPosition[1]:
-            snake2.score += 1
-            foodSpawned = False
-        else:
-            snake2.body.pop()
 
         if not foodSpawned:
             foodPosition = [random.randrange(0, 72) * 10, random.randrange(0, 48) * 10]
@@ -115,7 +119,7 @@ def main():
         for body1 in snake1.body:
             pygame.draw.rect(screen, green, pygame.Rect(body1[0], body1[1], 10, 10))
 
-        if not numberOfPlayers:
+        if numberOfPlayers == 2:
             for body2 in snake2.body:
                 pygame.draw.rect(screen, orange, pygame.Rect(body2[0], body2[1], 10, 10))
 
