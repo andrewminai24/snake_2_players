@@ -6,7 +6,7 @@ class Snake:
         self.score = 0
 
     def inBounds(self):
-        if self.position[0] < 0 or self.position[1] > 720 or self.position[1] < 0 or self.position[1] > 480:
+        if self.position[0] < 0 or self.position[0] > 720 or self.position[1] < 0 or self.position[1] > 480:
             return False
 
         return True
