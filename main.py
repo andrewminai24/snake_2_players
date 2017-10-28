@@ -8,7 +8,7 @@ green = pygame.Color(0, 255, 255)
 orange = pygame.Color(255, 255, 0)
 blue = pygame.Color(0, 0, 255)
 
-def gameOver(string, screen):
+def gameOver(screen, string = ""):
 
     font = pygame.font.SysFont('calibri', 56)
     surface = font.render('Game Over! ' + string, True, red)
@@ -117,16 +117,16 @@ def main():
             snake2.update(direction2)
 
         if not snake1.inBounds() and numberOfPlayers == 2:
-            gameOver("Player 2 wins!", screen)
+            gameOver(screen, "Player 2 wins!")
             showScore(screen, snake1.score, snake2.score, True)
 
         if not snake1.inBounds() and numberOfPlayers == 1:
-            gameOver("Game Over!", screen)
+            gameOver(screen)
             showScore(screen, snake1.score, snake2.score, True)
 
 
         if not snake2.inBounds() and numberOfPlayers == 2:
-            gameOver("Player 1 wins!", screen)
+            gameOver(screen, "Player 1 wins!")
             showScore(screen, snake1.score, snake2.score, True)
 
 
