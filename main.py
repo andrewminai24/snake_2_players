@@ -9,7 +9,6 @@ orange = pygame.Color(255, 255, 0)
 blue = pygame.Color(0, 0, 255)
 
 def gameOver(screen, string = ""):
-
     font = pygame.font.SysFont('calibri', 56)
     surface = font.render('Game Over! ' + string, True, red)
     rect = surface.get_rect()
@@ -22,7 +21,6 @@ def gameOver(screen, string = ""):
 
 
 def showScore(screen, score1, score2, isGameOver = False):
-
     fontSize = 18 if not isGameOver else 40
     font = pygame.font.SysFont('calibri', fontSize)
     surface = font.render('Player 1 Score: ' + str(score1), True, black)
@@ -41,12 +39,10 @@ def showScore(screen, score1, score2, isGameOver = False):
     screen.blit(surface2, rect2)
 
 
-
 def main():
-
     pygame.init()
     pygame.display.set_caption("Snake Game for 2 Players")
-    screen = pygame.display.set_mode((720, 480))
+    screen = pygame.display.set_mode((720, 480))       # 720, 480
     fpsController = pygame.time.Clock()
 
     numberOfPlayers = -1
@@ -82,17 +78,16 @@ def main():
                     numberOfPlayers = 2
 
         if numberOfPlayers == 1:
-            snake1 = Snake(100, 50, 90, 50, 80, 50)
+            snake1 = Snake(100, 90, 90, 90, 80, 90)
         else:
-            snake1 = Snake(100, 50, 90, 50, 80, 50)
-            snake2 = Snake(400, 430, 410, 430, 420, 430)
+            snake1 = Snake(100, 90, 90, 90, 80, 90)
+            snake2 = Snake(400, 390, 410, 390, 420, 390)
             direction2 = 'LEFT'
 
         pygame.display.flip()
 
 
     while snake1.inBounds() and snake2.inBounds():
-
         screen.fill(white)
         showScore(screen, snake1.score, snake2.score)
 
@@ -114,7 +109,7 @@ def main():
                 snake2.body.pop()
 
             snake2.body.insert(0, list(snake2.position))
-            snake2.update(direction2)
+            snake2.update(direction2)               # updating the player 2's position
 
         if not snake1.inBounds() and numberOfPlayers == 2:
             gameOver(screen, "Player 2 wins!")
@@ -124,13 +119,13 @@ def main():
             gameOver(screen)
             showScore(screen, snake1.score, snake2.score, True)
 
-
         if not snake2.inBounds() and numberOfPlayers == 2:
             gameOver(screen, "Player 1 wins!")
             showScore(screen, snake1.score, snake2.score, True)
 
 
         for event in pygame.event.get():
+
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
@@ -158,15 +153,25 @@ def main():
 
         pygame.draw.rect(screen, blue, pygame.Rect(foodPosition[0], foodPosition[1], 10, 10))
 
-
+# drawing the player 1
         for body1 in snake1.body:
+
+            if snake2.position[0] == body1[0] and snake2.position[1] == body1[1]:
+                gameOver(screen, "Player 1 wins!")
+
             pygame.draw.rect(screen, green, pygame.Rect(body1[0], body1[1], 10, 10))
 
+# if there's 2 players, drawing the second player
         if numberOfPlayers == 2:
-
             for body2 in snake2.body:
+
+                if snake1.position[0] == body2[0] and snake1.position[1] == body2[1]:
+                    gameOver(screen, "Player 2 wins!")
+
                 pygame.draw.rect(screen, orange, pygame.Rect(body2[0], body2[1], 10, 10))
 
+        if snake1.position[0] == snake2.position[0] and snake1.position[1] == snake2.position[1]:
+            gameOver(screen, "Player 1 wins!") if snake1.score > snake2.score else gameOver(screen, "Player 2 wins!")
 
         fpsController.tick(20)
         pygame.display.flip()
