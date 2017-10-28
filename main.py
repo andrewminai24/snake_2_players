@@ -11,7 +11,7 @@ blue = pygame.Color(0, 0, 255)
 def gameOver(string, screen):
 
     font = pygame.font.SysFont('calibri', 56)
-    surface = font.render('Game Over!' + string, True, red)
+    surface = font.render('Game Over! ' + string, True, red)
     rect = surface.get_rect()
     rect.midtop = (360, 45)
     screen.blit(surface, rect)
@@ -99,6 +99,12 @@ def main():
         snake1.body.insert(0, list(snake1.position))
         snake1.update(direction1)
 
+        if snake1.position[0] == foodPosition[0] and snake1.position[1] == foodPosition[1]:
+            snake1.score += 1
+            foodSpawned = False
+        else:
+            snake1.body.pop()
+
         if numberOfPlayers == 2:
 
             if snake2.position[0] == foodPosition[0] and snake2.position[1] == foodPosition[1]:
@@ -110,12 +116,18 @@ def main():
             snake2.body.insert(0, list(snake2.position))
             snake2.update(direction2)
 
-        if not snake1.inBounds():
+        if not snake1.inBounds() and numberOfPlayers == 2:
             gameOver("Player 2 wins!", screen)
+            showScore(screen, snake1.score, snake2.score, True)
+
+        if not snake1.inBounds() and numberOfPlayers == 1:
+            gameOver("Game Over!", screen)
+            showScore(screen, snake1.score, snake2.score, True)
 
 
-        if not snake2.inBounds():
+        if not snake2.inBounds() and numberOfPlayers == 2:
             gameOver("Player 1 wins!", screen)
+            showScore(screen, snake1.score, snake2.score, True)
 
 
         for event in pygame.event.get():
@@ -146,22 +158,11 @@ def main():
 
         pygame.draw.rect(screen, blue, pygame.Rect(foodPosition[0], foodPosition[1], 10, 10))
 
-        if snake1.position[0] == foodPosition[0] and snake1.position[1] == foodPosition[1]:
-            snake1.score += 1
-            foodSpawned = False
-        else:
-            snake1.body.pop()
-
 
         for body1 in snake1.body:
             pygame.draw.rect(screen, green, pygame.Rect(body1[0], body1[1], 10, 10))
 
         if numberOfPlayers == 2:
-            if snake2.position[0] == foodPosition[0] and snake2.position[1] == foodPosition[1]:
-                snake2.score += 1
-                foodSpawned = False
-            else:
-                snake1.body.pop()
 
             for body2 in snake2.body:
                 pygame.draw.rect(screen, orange, pygame.Rect(body2[0], body2[1], 10, 10))
