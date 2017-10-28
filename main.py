@@ -1,3 +1,8 @@
+"""
+    In this game, the controllers for player 1 is A W S D keys. A for left, W for up, S for down, and D for right.
+    If 2 players are playing, the player 2 moves by the UP DOWN LEFT RIGHT keys.
+"""
+
 import sys, random, pygame, time
 from snake import *
 
@@ -42,7 +47,7 @@ def showScore(screen, score1, score2, isGameOver = False):
 def main():
     pygame.init()
     pygame.display.set_caption("Snake Game for 2 Players")
-    screen = pygame.display.set_mode((720, 480))       # 720, 480
+    screen = pygame.display.set_mode((720, 480))       # or 1200, 700 also will work
     fpsController = pygame.time.Clock()
 
     numberOfPlayers = -1
@@ -94,6 +99,7 @@ def main():
         snake1.body.insert(0, list(snake1.position))
         snake1.update(direction1)
 
+        # checking if player 1 ate the food, if yes then make the snake longer
         if snake1.position[0] == foodPosition[0] and snake1.position[1] == foodPosition[1]:
             snake1.score += 1
             foodSpawned = False
@@ -101,15 +107,16 @@ def main():
             snake1.body.pop()
 
         if numberOfPlayers == 2:
-
+            # checking if player 2 ate the food, if there's 2 players playing
             if snake2.position[0] == foodPosition[0] and snake2.position[1] == foodPosition[1]:
                 snake2.score += 1
                 foodSpawned = False
             else:
                 snake2.body.pop()
 
+            # updating the player 2's position
             snake2.body.insert(0, list(snake2.position))
-            snake2.update(direction2)               # updating the player 2's position
+            snake2.update(direction2)
 
         if not snake1.inBounds() and numberOfPlayers == 2:
             gameOver(screen, "Player 2 wins!")
@@ -126,7 +133,7 @@ def main():
 
         for event in pygame.event.get():
 
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT or event.key == pygame.K_ESCAPE:
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
@@ -147,6 +154,7 @@ def main():
                 elif event.key == pygame.K_w and direction1 != 'DOWN':
                     direction1 = 'UP'
 
+        # spawning the food, if there isn't any
         if not foodSpawned:
             foodPosition = [random.randrange(0, 72) * 10, random.randrange(0, 48) * 10]
             foodSpawned = True

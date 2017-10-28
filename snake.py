@@ -1,5 +1,6 @@
 import random
 
+
 class Snake:
 
     def __init__(self, positionX, positionY, bodyX1, bodyY1, bodyX2, bodyY2):
@@ -16,14 +17,16 @@ class Snake:
     def update(self, direction):
         if direction == 'RIGHT':
             self.position[0] += 10
+
         elif direction == 'LEFT':
             self.position[0] -= 10
+
         elif direction == 'UP':
             self.position[1] -= 10
+
         elif direction == 'DOWN':
             self.position[1] += 10
 
     def reset(self):
         rand = [random.randrange(0, 72) * 10, random.randrange(0, 48) * 10]
         self.position = [rand[0], rand[1]]
-
