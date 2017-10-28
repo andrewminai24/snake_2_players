@@ -153,23 +153,24 @@ def main():
 
         pygame.draw.rect(screen, blue, pygame.Rect(foodPosition[0], foodPosition[1], 10, 10))
 
-# drawing the player 1
+        # drawing the player 1
         for body1 in snake1.body:
-
+            # if the player 2 hits the player 1's body, then player 1 wins
             if snake2.position[0] == body1[0] and snake2.position[1] == body1[1]:
                 gameOver(screen, "Player 1 wins!")
 
             pygame.draw.rect(screen, green, pygame.Rect(body1[0], body1[1], 10, 10))
 
-# if there's 2 players, drawing the second player
+        # if there's 2 players, drawing the second player
         if numberOfPlayers == 2:
             for body2 in snake2.body:
-
+                # if the player 1 crashes into player 2's body, then player 1 loses
                 if snake1.position[0] == body2[0] and snake1.position[1] == body2[1]:
                     gameOver(screen, "Player 2 wins!")
 
                 pygame.draw.rect(screen, orange, pygame.Rect(body2[0], body2[1], 10, 10))
 
+        # if the players crash by their heads, the winner is determined based on their scores
         if snake1.position[0] == snake2.position[0] and snake1.position[1] == snake2.position[1]:
             gameOver(screen, "Player 1 wins!") if snake1.score > snake2.score else gameOver(screen, "Player 2 wins!")
 
