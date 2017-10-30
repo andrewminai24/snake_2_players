@@ -180,7 +180,12 @@ def main():
 
         # if the players crash by their heads, the winner is determined based on their scores
         if snake1.position[0] == snake2.position[0] and snake1.position[1] == snake2.position[1]:
-            gameOver(screen, "Player 1 wins!") if snake1.score > snake2.score else gameOver(screen, "Player 2 wins!")
+            if snake1.score > snake2.score:
+                gameOver(screen, "Player 1 wins!")
+            elif snake1.score == snake2.score:
+                gameOver(screen, "Tie!")
+            else:
+                gameOver(screen, "Player 2 wins!")
 
         fpsController.tick(20)
         pygame.display.flip()
