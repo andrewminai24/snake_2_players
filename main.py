@@ -51,14 +51,13 @@ def main():
     fpsController = pygame.time.Clock()
 
     numberOfPlayers = -1
-    direction1 ='RIGHT'
+    direction1 = 'RIGHT'
 
     foodPosition = [random.randrange(0, 72) * 10, random.randrange(0, 48) * 10]
     foodSpawned = True
 
     while numberOfPlayers == -1:
         screen.fill(white)
-
         font = pygame.font.SysFont('calibri', 48)
         surface = font.render('Press 1 for 1 player!', True, black)
         surface2 = font.render('Press 2 for 2 players!', True, black)
@@ -90,7 +89,6 @@ def main():
             direction2 = 'LEFT'
 
         pygame.display.flip()
-
 
     while snake1.inBounds() and snake2.inBounds():
         screen.fill(white)
@@ -154,14 +152,11 @@ def main():
                 elif event.key == pygame.K_w and direction1 != 'DOWN':
                     direction1 = 'UP'
 
-        # spawning the food, if there isn't any
         if not foodSpawned:
             foodPosition = [random.randrange(0, 72) * 10, random.randrange(0, 48) * 10]
             foodSpawned = True
-
         pygame.draw.rect(screen, blue, pygame.Rect(foodPosition[0], foodPosition[1], 10, 10))
 
-        # drawing the player 1
         for body1 in snake1.body:
             # if the player 2 hits the player 1's body, then player 1 wins
             if snake2.position[0] == body1[0] and snake2.position[1] == body1[1]:
@@ -169,7 +164,6 @@ def main():
 
             pygame.draw.rect(screen, green, pygame.Rect(body1[0], body1[1], 10, 10))
 
-        # if there's 2 players, drawing the second player
         if numberOfPlayers == 2:
             for body2 in snake2.body:
                 # if the player 1 crashes into player 2's body, then player 1 loses

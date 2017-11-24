@@ -11,7 +11,6 @@ class Snake:
     def inBounds(self):
         if self.position[0] < 0 or self.position[0] > 720 or self.position[1] < 0 or self.position[1] > 480:
             return False
-
         return True
 
     def update(self, direction):
