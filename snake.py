@@ -29,3 +29,7 @@ class Snake:
     def reset(self):
         rand = [random.randrange(0, 72) * 10, random.randrange(0, 48) * 10]
         self.position = [rand[0], rand[1]]
+
+    def ateFood(self, foodPosition):
+        return True if self.position[0] == foodPosition[0] and self.position[1] == foodPosition[1] else False
+

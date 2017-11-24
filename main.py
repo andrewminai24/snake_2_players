@@ -97,8 +97,8 @@ def main():
         snake1.body.insert(0, list(snake1.position))
         snake1.update(direction1)
 
-        # checking if player 1 ate the food, if yes then make the snake longer
-        if snake1.position[0] == foodPosition[0] and snake1.position[1] == foodPosition[1]:
+        # making the snake longer, if ate food
+        if snake1.ateFood(foodPosition):
             snake1.score += 1
             foodSpawned = False
         else:
@@ -106,7 +106,7 @@ def main():
 
         if numberOfPlayers == 2:
             # checking if player 2 ate the food, if there's 2 players playing
-            if snake2.position[0] == foodPosition[0] and snake2.position[1] == foodPosition[1]:
+            if snake2.ateFood(foodPosition):
                 snake2.score += 1
                 foodSpawned = False
             else:
