@@ -105,14 +105,13 @@ def main():
             snake1.body.pop()
 
         if numberOfPlayers == 2:
-            # checking if player 2 ate the food, if there's 2 players playing
             if snake2.ateFood(foodPosition):
                 snake2.score += 1
                 foodSpawned = False
             else:
                 snake2.body.pop()
 
-            # updating the player 2's position
+            # updating player 2's position
             snake2.body.insert(0, list(snake2.position))
             snake2.update(direction2)
 
@@ -166,7 +165,7 @@ def main():
 
         if numberOfPlayers == 2:
             for body2 in snake2.body:
-                # if the player 1 crashes into player 2's body, then player 1 loses
+                # player 1 loses, if crashes into player 2's body
                 if snake1.position[0] == body2[0] and snake1.position[1] == body2[1]:
                     gameOver(screen, "Player 2 wins!")
 
